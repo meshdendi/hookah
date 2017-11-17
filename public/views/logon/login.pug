@@ -1,0 +1,24 @@
+html
+  head
+    title hello m8
+
+
+
+  body
+    form(action='/' method='post')
+      if err
+        label(style='color:red')= err
+      table
+        tr
+          td
+            label Username:     
+          td
+            input(type='text', name='username', id='usern', required) 
+        tr
+          td
+            label Password:     
+          td
+            input(type='password', name='password', id='pass', required) 
+          tr
+            td(colspan=2)
+              input(type='submit', name='login', value='LOGIN')
