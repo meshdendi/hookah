@@ -43,7 +43,7 @@ app.post('/', function(req, res){
       req.session.isvalid = true;
     }else{
       console.log('not found');
-      res.render('logon/login', {err:'Wrong username of password'});
+      res.render('logon/login', {err:'Wrong username of passwor'});
     }
   });
 });
