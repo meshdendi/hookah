@@ -6,6 +6,8 @@ const session = require('express-session');
 const mongo = require('mongojs');
 const db = mongo('Hookah');
 var bodyParser = require('body-parser');
+// var jquery = require('jquery');
+// var bootstrap = require('bootstrap');
 var sess = {
   secret: 'this is my secret',
   resave: true,
@@ -16,6 +18,9 @@ var sess = {
 app.use(session(sess));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 
 
@@ -27,7 +32,6 @@ app.set('views', path.join(__dirname, path_view));
 
 app.get('/',function(req, res){
    if (!req.session.isvalid){
-      console.log(req.session.id);
       res.render('logon/login');
    }
 
@@ -41,6 +45,8 @@ app.post('/', function(req, res){
   db.emps.findOne({username: username, password:password}, function(err,docs){
     if (docs){
       req.session.isvalid = true;
+      req.session.username = docs.username;
+      res.send(req.session.username );
     }else{
       console.log('not found');
       res.render('logon/login', {err:'Wrong username of passwor'});
